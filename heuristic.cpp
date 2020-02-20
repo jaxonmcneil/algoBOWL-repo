@@ -9,33 +9,25 @@
 
 using namespace std;
 
-void generateCombos(int n ){
-    const int num = n;
-    int numCombos = pow(2,n);
-    int l;
-    char bin[n];
-    for (int i; i < n; i++){
-        bin[i] = '0';
-    }
-    map<int, char[]> combos;
+void generateCombos(vector<bool> b, int r, int size, vector<vector<bool>> &v);
+void print(vector<bool> b, int size);
 
-    for(int i = 0; i < numCombos; i++) {
-        for(char c: bin){
-            cout << c;
-        }
-        cout << endl;
-        l = n-1;
-        h:
-        if(bin[l] = '0')
-            bin[l] = '1';
-        else
-        {
-            bin[l] = '0';
-            l--;
-            goto h;
-        }
+void generateCombos(vector<bool> b, int r, int size, vector<vector<bool>> &v){
+    for(int i = 0; i < r; i++) {
+        b[i] = 1;
+        print(b, size);
+        v.push_back(b);
+        generateCombos(b ,i, size, v);
+        b[i] = 0;
     }
-
 }
 
-
+void print(vector<bool> b, int size) {
+    for (int i = 0; i < size; i++) {
+        if (b[i])
+            cout << 1;
+        else
+            cout << 0;
+    }
+    cout << endl;
+}
