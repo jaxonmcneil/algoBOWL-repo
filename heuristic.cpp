@@ -18,7 +18,6 @@ void bruteForceHeuristic(string file);
 void generateCombos(vector<bool> b, int r, int size, vector<vector<bool>> &v){
     for(int i = 0; i < r; i++) {
         b[i] = 1;
-        print(b, size);
         v.push_back(b);
         generateCombos(b ,i, size, v);
         b[i] = 0;
@@ -50,7 +49,6 @@ void bruteForceHeuristic(string file) {
     //Setup code, get all possible binary combinations of size n
     vector<vector<bool>> v;
     vector<bool> b(n);
-    print(b,n);
     for (int i = 0; i < n; i++)
         b[i] = 0;
     v.push_back(b);
@@ -78,34 +76,37 @@ void bruteForceHeuristic(string file) {
             var1 = v1s[i];
             var2 = v2s[i];
             //adjust boolean expressions for negatives
-            if(var1 < 0 && var2 < 0)
-                if(!combo[abs(var1)] || !combo[abs(var2)])
+            if(var1 < 0 && var2 < 0) {
+                if (!combo[abs(var1)-1] || !combo[abs(var2)-1])
                     score++;
-            else if (var1 < 0)
-                if(!combo[abs(var1)] || combo[var2])
+            }
+            else if (var1 < 0) {
+                if (!combo[abs(var1)-1] || combo[var2-1])
                     score++;
-            else if (var2 < 0)
-                if(combo[var1] || !combo[abs(var2)])
+            }
+            else if (var2 < 0) {
+                if (combo[var1-1] || !combo[abs(var2)-1])
                     score++;
-            else
-                if(combo[var1] || combo[var2])
+            }
+            else {
+                if (combo[var1-1] || combo[var2-1])
                     score++;
+            }
         }
         //check each combos score
-        if(score > maxScore){
+        if(score >= maxScore){
             maxScore = score;
             maxCombo = combo;
         }
 
     }
 
-    cout << "\n*******\n" << endl;
-    cout <<maxScore << endl;
+    out << maxScore << endl;
     for(bool tf: maxCombo){
         if(tf)
-            cout << 1 << endl;
+            out << 1 << endl;
         else
-            cout << 0 << endl;
+            out << 0 << endl;
     }
 
 }
