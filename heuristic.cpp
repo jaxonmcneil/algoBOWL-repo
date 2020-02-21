@@ -101,12 +101,12 @@ void bruteForceHeuristic(string file) {
 
     }
 
-    out << maxScore << endl;
+    cout << maxScore << endl;
     for(bool tf: maxCombo){
         if(tf)
-            out << 1 << endl;
+            cout << 1 << endl;
         else
-            out << 0 << endl;
+            cout << 0 << endl;
     }
 
 }
