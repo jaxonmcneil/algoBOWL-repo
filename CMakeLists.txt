@@ -3,4 +3,4 @@ project(AlgoBOWL)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(AlgoBOWL main.cpp)
+add_executable(AlgoBOWL main.cpp )
