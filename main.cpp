@@ -11,11 +11,11 @@ using namespace std;
 int main() {
     srand(time(NULL));
 
-    const int M(10), N(15);
+    const int M(1000), N(10000);
 
-    //randomFileGenerator("samplein.txt", M, N);
-    //bruteForceHeuristic("samplein.txt");
-    optimizedHeuristic("samplein.txt");
+    randomFileGenerator("samplein.txt", M, N);
+    bruteForceHeuristic("samplein.txt");
+    //optimizedHeuristic("samplein.txt");
     verification("output.txt","samplein.txt");
     return 0;
 }
