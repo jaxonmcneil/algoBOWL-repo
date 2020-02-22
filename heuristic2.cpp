@@ -26,6 +26,7 @@ void optimizedHeuristic(string file) {
     vector<int> finalBinary;
     const int DONT_ADD = 50000;
     int maxKey, maxVal, numSatisfiedClauses(0);
+    int mapSize;
 
     for(int i = 1; i <=n; i++){
         variableScore[i] = 0;
@@ -42,7 +43,7 @@ void optimizedHeuristic(string file) {
         clauses.push_back(clause);
     }
 
-    while(satisfiedClauses.size() != 0) {
+    while(clauses.size() != 0) {
         maxKey = 0;
         maxVal = 0;
         for (int i = 0; i < m; i++) {
@@ -96,7 +97,7 @@ void optimizedHeuristic(string file) {
             numSatisfiedClauses += satisfiedClauses[maxKey].first.size();
             for(int n: satisfiedClauses[maxKey].first){
                 clauses.erase(clauses.begin()+(n-1));
-                satisfiedClauses[maxKey].first.erase(satisfiedClauses[maxKey].first.begin() + n);
+//                satisfiedClauses[maxKey].first.erase(satisfiedClauses[maxKey].first.begin() + n);
             }
         } else {
             finalBinary[maxKey-1] = 0;
@@ -104,12 +105,18 @@ void optimizedHeuristic(string file) {
             numSatisfiedClauses += satisfiedClauses[maxKey].second.size();
             for(int n: satisfiedClauses[maxKey].second){
                 clauses.erase(clauses.begin()+(n-1));
-                satisfiedClauses[maxKey].second.erase(satisfiedClauses[maxKey].second.begin() + n);
+                if(clauses.size() == 0) {
+                    break;
+                }
+ //               satisfiedClauses[maxKey].second.erase(satisfiedClauses[maxKey].second.begin() + n);
             }
         }
         variableScore[maxKey] = DONT_ADD;
         satisfiedClauses.erase(maxKey);
-
+        for(pair<int, pair<vector<int>,vector<int>>> satClauses : satisfiedClauses) {
+            satClauses.second.first.clear();
+            satClauses.second.second.clear();
+        }
     }
 
     cout << numSatisfiedClauses << endl;
@@ -117,6 +124,7 @@ void optimizedHeuristic(string file) {
         cout << n << endl;
     }
 
+    
 
     /*
     for(auto m: variableScore){
