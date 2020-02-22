@@ -14,7 +14,7 @@ void generateCombos(vector<bool> b, int r, int size, vector<vector<bool>> &v);
 void print(vector<bool> b, int size);
 void bruteForceHeuristic(string file);
 
- //this function will push all boolean combinations for the n variables into v (except the combination of all 0s)
+//this function will push all boolean combinations for the n variables into v (except the combination of all 0s)
 void generateCombos(vector<bool> b, int r, int size, vector<vector<bool>> &v){
     for(int i = 0; i < r; i++) {
         b[i] = 1;
