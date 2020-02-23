@@ -26,15 +26,16 @@ void optimizedHeuristic(string file) {
     vector<int> finalBinary;
     const int DONT_ADD = 50000;
     int maxKey, maxVal, numSatisfiedClauses(0);
-    int mapSize;
+    int count;
+    bool finalAnswer;
 
     for(int i = 1; i <=n; i++){
-        variableScore[i] = 0;
-        satisfiedClauses[i] = initializer;
-        finalBinary.push_back(-1);
+        variableScore[i] = 0;       // Initialize total variable count
+        satisfiedClauses[i] = initializer;      // Initialize vectors of satisfied clauses (second.first = true, second.second = false)
+        finalBinary.push_back(-1);      // Vector of final binary values
     }
 
-
+    // Populate a vector of clauses
     for(int i = 0; i < m; i++) {
         in >> v1;
         in >> v2;
@@ -87,16 +88,19 @@ void optimizedHeuristic(string file) {
             }
 
             //TODO: find way to efficiently store the clauses (by line numbers or some other way) that the highest scoring variable satisfies
-
         }
 
-
+        count = 1; // Counts for changes in vector size as clauses vector elements get deleted
         if (variableScore[maxKey] > 0) {
             finalBinary[maxKey-1] = 1;
             m = m - satisfiedClauses[maxKey].first.size();
             numSatisfiedClauses += satisfiedClauses[maxKey].first.size();
             for(int n: satisfiedClauses[maxKey].first){
-                clauses.erase(clauses.begin()+(n-1));
+                if(clauses.size() == 0) {
+                    break;
+                }
+                clauses.erase(clauses.begin()+(n-count));
+                ++count;
 //                satisfiedClauses[maxKey].first.erase(satisfiedClauses[maxKey].first.begin() + n);
             }
         } else {
@@ -104,24 +108,42 @@ void optimizedHeuristic(string file) {
             m = m - satisfiedClauses[maxKey].second.size();
             numSatisfiedClauses += satisfiedClauses[maxKey].second.size();
             for(int n: satisfiedClauses[maxKey].second){
-                clauses.erase(clauses.begin()+(n-1));
                 if(clauses.size() == 0) {
                     break;
                 }
+                clauses.erase(clauses.begin()+(n-count));
+                ++count;
  //               satisfiedClauses[maxKey].second.erase(satisfiedClauses[maxKey].second.begin() + n);
             }
         }
         variableScore[maxKey] = DONT_ADD;
         satisfiedClauses.erase(maxKey);
         for(pair<int, pair<vector<int>,vector<int>>> satClauses : satisfiedClauses) {
-            satClauses.second.first.clear();
-            satClauses.second.second.clear();
+//            satClauses.second.first.clear();
+//            satClauses.second.second.clear();
+            satisfiedClauses[satClauses.first].first.clear();
+            satisfiedClauses[satClauses.first].second.clear();
         }
+
+        finalAnswer = 1;
+        for(int i = 0; i < finalBinary.size(); ++i) {
+            if(finalBinary.at(i) == -1) {
+                finalAnswer = 0;
+            }
+        }
+        if(finalAnswer) {
+            break;
+        }
+
     }
 
+    ofstream out ("output.txt");
+    // Print out number of satisfied clauses and print out boolean values
     cout << numSatisfiedClauses << endl;
+    out << numSatisfiedClauses << endl;
     for(int n: finalBinary) {
         cout << n << endl;
+        out << n << endl;
     }
 
     
