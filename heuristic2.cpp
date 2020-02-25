@@ -124,7 +124,7 @@ void optimizedHeuristic(string file) {
             satisfiedClauses[satClauses.first].first.clear();
             satisfiedClauses[satClauses.first].second.clear();
         }
-
+//        cout << m << endl;
         finalAnswer = 1;
         for(int i = 0; i < finalBinary.size(); ++i) {
             if(finalBinary.at(i) == -1) {
@@ -135,14 +135,24 @@ void optimizedHeuristic(string file) {
             break;
         }
 
+        // Fix stuff
+        if(maxVal == 0 && maxKey == 0) {
+            for(int i = 0; i < finalBinary.size(); ++i) {
+                if(finalBinary.at(i) == -1) {
+                    finalBinary.at(i) = 0;
+                }
+            }
+            break;
+        }
+
     }
 
-    ofstream out ("output.txt");
+    ofstream out ("output_from_23_to_138.txt");
     // Print out number of satisfied clauses and print out boolean values
-    cout << numSatisfiedClauses << endl;
+    //cout << numSatisfiedClauses << endl;
     out << numSatisfiedClauses << endl;
     for(int n: finalBinary) {
-        cout << n << endl;
+//        cout << n << endl;
         out << n << endl;
     }
 
