@@ -6,37 +6,49 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <io.h>
 
 using namespace std;
 
 void verification (string fileName, string inputFile) {
-    ifstream open (fileName);
+    ifstream output (fileName);
     ifstream input (inputFile);
-    int theirSolution, ourSolution = 0;
+    int theirSolution = 0, ourSolution = 0;
     int clauses, vars;
     int var1, var2;
+    bool bool1, bool2;
     bool intake;
-    vector<bool> variableValues;
+    vector<int> variableValues;
 
     input >> clauses;
     input >> vars;
-    open >> theirSolution;
+    output >> theirSolution;
 
     for(int i = 0; i < vars; ++i) {
-        open >> intake;
+        output >> intake;
         variableValues.push_back(intake);
     }
 
     for(int i = 0; i < clauses; ++i) {
         input >> var1;
         input >> var2;
-        var1 = abs(var1);
-        var2 = abs(var2);
+//        var1 = abs(var1);
+//        var2 = abs(var2);
 
-        var1 = variableValues.at(var1-1);
-        var2 = variableValues.at(var2-1);
+        // Get boolean value corresponding to variables
+        bool1 = variableValues.at(abs(var1)-1);
+        bool2 = variableValues.at(abs(var2)-1);
 
-        if( (var1 + var2) > 0 ) {
+        // Determine if boolean values need to be negated
+        if(var1 < 0) {
+            bool1 = not bool1;
+        }
+        if(var2 < 0) {
+            bool2 = not bool2;
+        }
+
+        // Count number of true statements
+        if( (bool1 + bool2) > 0 ) {
             ourSolution++;
         }
     }
